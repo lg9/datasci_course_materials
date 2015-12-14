@@ -24,6 +24,7 @@ def score_nonsent_terms(tweet_json_file, sentiment_dictionary):
                 if term in sentiment_dictionary:
                     score += sentiment_dictionary[term]
             for term in terms:
+                term = term.strip()
                 if term not in sentiment_dictionary:
                     e_term = term.encode('utf-8')
                     if e_term not in term_counts:
@@ -34,19 +35,18 @@ def score_nonsent_terms(tweet_json_file, sentiment_dictionary):
     tweet_fh.close()
 
     ''' now print out average scores for non-sentiment terms
-        that appear at least 3 times but fewer than 50% of the max times.
         This is a very simplistic method, but I hope it will make the grade. '''
-    max_count = 0
-    for term in term_counts.keys():
-        if term_counts[term] > max_count:
-            max_count = term_counts[term]
+    #max_count = 0
+    #for term in term_counts.keys():
+    #    if term_counts[term] > max_count:
+    #        max_count = term_counts[term]
 
     for term in sorted(term_counts.keys()):
-        if term_counts[term] > 3 and term_counts[term] < max_count/2:
-            score = float(term_scores[term]) / float(term_counts[term])
-#            outline = term + "      " + str(term_counts[term]) + "  " + str(term_scores[term]) + "       " + str(score)
-            outline = term + " " + format(score, '.3f')
-            print outline
+    #    if term_counts[term] > 0 and term_counts[term] < max_count/2:
+        score = float(term_scores[term]) / float(term_counts[term])
+    #    outline = term + "      " + str(term_counts[term]) + "  " + str(term_scores[term]) + "       " + str(score)
+        outline = term + " " + format(score, '.3f')
+        print outline
 
 def main():
     sent_filename = sys.argv[1]
